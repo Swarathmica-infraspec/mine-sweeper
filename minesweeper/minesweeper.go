@@ -58,3 +58,13 @@ func (b Board) Neighbours(x, y int) []*Box {
 
 	return neighbours
 }
+
+func (b *Board) CountAdjacentMines(x, y int) int {
+	count := 0
+	for _, box := range b.Neighbours(x, y) {
+		if box.state == 'M' {
+			count++
+		}
+	}
+	return count
+}

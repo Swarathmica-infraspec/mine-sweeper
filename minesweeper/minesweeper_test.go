@@ -96,3 +96,18 @@ func TestNeighbours(t *testing.T) {
 		}
 	}
 }
+
+func TestCountAdjacentMines(t *testing.T) {
+	boardState := [][]rune{
+		{'E', 'M'},
+		{'E', 'E'},
+	}
+
+	b, _ := NewBoard(2, 2, boardState)
+
+	count := b.CountAdjacentMines(0, 0)
+
+	if count != 1 {
+		t.Errorf("expected 1 adjacent mine, got %d", count)
+	}
+}
