@@ -8,7 +8,8 @@ type Box struct {
 }
 
 type Board struct {
-	Boxes [][]*Box
+	width, height int
+	Boxes         [][]*Box
 }
 
 func NewBox(x, y int, state rune) (*Box, error) {
@@ -35,5 +36,25 @@ func NewBoard(width, height int, boardState [][]rune) (*Board, error) {
 			boxes[y][x] = b
 		}
 	}
-	return &Board{Boxes: boxes}, nil
+	return &Board{Boxes: boxes, width: width, height: height}, nil
+}
+
+func (b Board) Neighbours(x, y int) []*Box {
+	var neighbours []*Box
+	directions := [][2]int{
+		{-1, -1}, {0, -1}, {1, -1},
+		{-1, 0}, {1, 0},
+		{-1, 1}, {0, 1}, {1, 1},
+	}
+
+	for _, d := range directions {
+		nx := x + d[0]
+		ny := y + d[1]
+		if nx >= 0 && nx < b.width && ny >= 0 && ny < b.height {
+			neighbours = append(neighbours, b.Boxes[ny][nx])
+		}
+
+	}
+
+	return neighbours
 }

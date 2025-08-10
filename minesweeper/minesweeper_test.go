@@ -63,3 +63,36 @@ func TestNewBoardannotBeCreatedWithNegativeYDimension(t *testing.T) {
 	}
 
 }
+
+func TestNeighbours(t *testing.T) {
+	b, _ := NewBoard(3, 3, [][]rune{
+		{'E', 'E', 'E'},
+		{'E', 'M', 'E'},
+		{'E', 'E', 'E'},
+	})
+
+	neighbours := b.Neighbours(1, 1)
+
+	expectedCoords := [][2]int{
+		{0, 0}, {1, 0}, {2, 0},
+		{0, 1}, {2, 1},
+		{0, 2}, {1, 2}, {2, 2},
+	}
+
+	if len(neighbours) != len(expectedCoords) {
+		t.Errorf("minesweeper: Neighbous: expected %d neighbours, got %d", len(expectedCoords), len(neighbours))
+	}
+
+	for _, coord := range expectedCoords {
+		found := false
+		for _, nb := range neighbours {
+			if nb.x == coord[0] && nb.y == coord[1] {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("minesweeper: Neighbous: expected neighbour at (%d,%d) not found", coord[0], coord[1])
+		}
+	}
+}
