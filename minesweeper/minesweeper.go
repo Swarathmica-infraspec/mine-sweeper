@@ -68,3 +68,34 @@ func (b *Board) CountAdjacentMines(x, y int) int {
 	}
 	return count
 }
+
+func (b *Board) ChangeState(x, y int) {
+	if y < 0 || y >= len(b.Boxes) || x < 0 || x >= len(b.Boxes[0]) {
+		return
+	}
+
+	box := b.Boxes[y][x]
+
+	if box.state != 'E' && box.state != 'M' {
+		return
+	}
+
+	if box.state == 'M' {
+		box.state = 'X'
+		return
+	}
+
+	count := b.CountAdjacentMines(x, y)
+
+	if count > 0 {
+
+		box.state = rune('0' + count)
+	} else {
+
+		box.state = 'B'
+		for _, nb := range b.Neighbours(x, y) {
+
+			b.ChangeState(nb.x, nb.y)
+		}
+	}
+}

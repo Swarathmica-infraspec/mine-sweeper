@@ -111,3 +111,26 @@ func TestCountAdjacentMines(t *testing.T) {
 		t.Errorf("expected 1 adjacent mine, got %d", count)
 	}
 }
+
+func TestChangeStateAt0Comma0(t *testing.T) {
+	boardState := [][]rune{
+		{'E', 'M'},
+		{'E', 'E'},
+	}
+	b, _ := NewBoard(2, 2, boardState)
+
+	b.ChangeState(0, 0)
+	if b.Boxes[0][0].state != '1' {
+		t.Errorf("minesweeper: ChangeState: expected '1' at (0,0), got '%c'", b.Boxes[0][0].state)
+	}
+
+}
+func TestChangeStateWithNoMines(t *testing.T) {
+	b, _ := NewBoard(2, 2, boardState)
+
+	b.ChangeState(1, 1)
+	if b.Boxes[1][1].state != 'B' {
+		t.Errorf("minesweeper: ChangeState: expected 'B' at (1,1), got '%c'", b.Boxes[1][1].state)
+	}
+
+}
