@@ -32,3 +32,34 @@ func TestNewBoxCannotBeCreatedWithStateOtherThanMOrE(t *testing.T) {
 		t.Errorf("minesweeper: NewBox: Cannot create Box with state other than M or E")
 	}
 }
+
+var boardState = [][]rune{
+	{'E', 'E'},
+	{'E', 'E'},
+}
+
+func TestNewBoard(t *testing.T) {
+
+	_, err := NewBoard(2, 2, boardState)
+
+	if err != nil {
+		t.Errorf("minesweeper: NewBoard: expected no error, got %v", err)
+	}
+
+}
+
+func TestNewBoardannotBeCreatedWithNegativeXDimension(t *testing.T) {
+	_, err := NewBoard(-2, 2, boardState)
+	if err == nil {
+		t.Errorf("minesweeper: NewBoard: cannot create board with dimensions<1")
+	}
+
+}
+
+func TestNewBoardannotBeCreatedWithNegativeYDimension(t *testing.T) {
+	_, err := NewBoard(2, -2, boardState)
+	if err == nil {
+		t.Errorf("minesweeper: NewBoard: cannot create board with dimensions<1")
+	}
+
+}
