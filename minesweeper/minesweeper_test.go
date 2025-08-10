@@ -25,3 +25,10 @@ func TestNewBoxCannotBeCreatedWithNegativeCoordinatesY(t *testing.T) {
 		t.Errorf("minesweeper: NewBox: Cannot create Box with negative coordinates")
 	}
 }
+
+func TestNewBoxCannotBeCreatedWithStateOtherThanMOrE(t *testing.T) {
+	_, err := NewBox(1, -2, 'N')
+	if !errors.Is(err, errors.ErrUnsupported) {
+		t.Errorf("minesweeper: NewBox: Cannot create Box with state other than M or E")
+	}
+}
