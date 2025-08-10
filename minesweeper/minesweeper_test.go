@@ -1,10 +1,27 @@
 package minesweeper
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestNewBox(t *testing.T) {
-	b := NewBox(1, 2, 'E')
+	b, _ := NewBox(1, 2, 'E')
 	if b.x != 1 || b.y != 2 || b.state != 'E' {
-		t.Errorf("Box not created properly, got %+v", b)
+		t.Errorf("minesweeper: NewBox: Box not created properly, got %+v", b)
+	}
+}
+
+func TestNewBoxCannotBeCreatedWithNegativeCoordinatesX(t *testing.T) {
+	_, err := NewBox(-1, 2, 'E')
+	if !errors.Is(err, errors.ErrUnsupported) {
+		t.Errorf("minesweeper: NewBox: Cannot create Box with negative coordinates")
+	}
+}
+
+func TestNewBoxCannotBeCreatedWithNegativeCoordinatesY(t *testing.T) {
+	_, err := NewBox(1, -2, 'E')
+	if !errors.Is(err, errors.ErrUnsupported) {
+		t.Errorf("minesweeper: NewBox: Cannot create Box with negative coordinates")
 	}
 }
